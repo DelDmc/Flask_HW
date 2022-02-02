@@ -1,6 +1,7 @@
 import csv
 
 from flask import Flask
+from faker import Faker
 import pandas as pd
 import requests
 from webargs import validate, fields
@@ -14,7 +15,7 @@ app = Flask(__name__)
 def get_currency_sign(currency):
     url = "https://bitpay.com/currencies"
     result = requests.get(url)
-    if result.status_code != 200:  # not in(HTTPStatus.OK,)
+    if result.status_code != 200:
         return Response("Error", status=result.status_code)
     result = result.json()["data"]
     for value in result:
