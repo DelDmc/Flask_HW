@@ -1,6 +1,5 @@
 import csv
 
-from faker_file import Faker
 from flask import Flask
 import pandas as pd
 import requests
@@ -42,7 +41,7 @@ def get_bitcoin_value(currency):
 @app.route("/get-bitcoin-value")
 @use_kwargs({"currency": fields.Str(required=False)}, location="query")
 def get_bitcoin_value_and_sign(currency):
-    return f'{get_bitcoin_value(currency)}, {get_currency_sign(currency)}'
+    return f'{get_bitcoin_value(currency)} {get_currency_sign(currency)}'
 
 
 @app.route("/generate-students")
