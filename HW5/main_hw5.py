@@ -1,15 +1,16 @@
 import csv
 
-from flask import Flask
+from flask import Flask, Response, jsonify
 from faker import Faker
 import pandas as pd
 import requests
 from webargs import validate, fields
 from webargs.flaskparser import use_kwargs
-
+from urllib.parse import unquote
 from hw5_class_file import HWProvider
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 
 def get_currency_sign(currency):
@@ -58,7 +59,8 @@ def get_bitcoin_value_and_sign(currency):
 def generate_students(quantity):
     fake = Faker("UK")
     fake.add_provider(HWProvider)
-    with open("hw5.csv", "w", newline="") as csv_file:
+    filename = "hw5.csv"
+    with open(filename, "w", newline="", encoding='utf-8') as csv_file:
         fieldnames = [
             "first_name",
             "last_name",
@@ -67,11 +69,13 @@ def generate_students(quantity):
             "date_of_birth"
         ]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        data_list = []
+        writer.writeheader()
         for _ in range(quantity):
             writer.writerow(fake.profile_for_homework())
-    filename = "hw5.csv"
-    data = pd.read_csv(filename, header=None)
-    return pd.DataFrame.to_html(data)
+            data_list.append(fake.profile_for_homework())
+    print(data_list)
+    return jsonify(data_list)
 
 
 app.run(port=5001, debug=True)
