@@ -22,6 +22,8 @@ def get_currency_sign(currency):
     for value in result:
         if value["code"] == currency:
             return value["symbol"]
+    else:
+        return '$'
 
 
 def get_bitcoin_value(currency):
@@ -41,7 +43,7 @@ def get_bitcoin_value(currency):
 
 
 @app.route("/get-bitcoin-value")
-@use_kwargs({"currency": fields.Str(required=False)}, location="query")
+@use_kwargs({"currency": fields.Str(missing='USD $')}, location="query")
 def get_bitcoin_value_and_sign(currency):
     return f'{get_bitcoin_value(currency)} {get_currency_sign(currency)}'
 
