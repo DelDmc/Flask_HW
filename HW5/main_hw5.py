@@ -2,11 +2,10 @@ import csv
 
 from flask import Flask, Response, jsonify
 from faker import Faker
-import pandas as pd
 import requests
 from webargs import validate, fields
 from webargs.flaskparser import use_kwargs
-from urllib.parse import unquote
+
 from hw5_class_file import HWProvider
 
 app = Flask(__name__)
