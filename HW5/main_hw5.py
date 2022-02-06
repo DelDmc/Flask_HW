@@ -16,7 +16,7 @@ def get_currency_sign(currency):
     url = "https://bitpay.com/currencies"
     result = requests.get(url)
     if result.status_code != 200:
-        return Response("Error", status=result.status_code)
+        return Response("ERROR: Something went wrong", status=result.status_code)
     result = result.json()["data"]
     for value in result:
         if value["code"] == currency:
@@ -29,7 +29,7 @@ def get_bitcoin_value(currency):
     url = "https://bitpay.com/api/rates"
     result = requests.get(url)
     if result.status_code != 200:
-        return Response("Error", status=result.status_code)
+        return Response("ERROR: Something went wrong", status=result.status_code)
     result = result.json()
     default_res = result[2]["rate"]
     res = str(
@@ -75,7 +75,6 @@ def generate_students(quantity):
         for _ in range(quantity):
             writer.writerow(fake.profile_for_homework())
             data_list.append(fake.profile_for_homework())
-    print(data_list)
     return jsonify(data_list)
 
 
