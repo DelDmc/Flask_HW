@@ -16,32 +16,32 @@ def title_function(my_word):
     return my_word.title()
 
 
-class MapDictIter:
+class map_dict_iter:
     def __init__(self, func1, func2, my_dict):
         self.func1 = func1
         self.func2 = func2
         self.my_dict = my_dict
-        self.key = 0
-        self.value = 0
+        self.key_count = 0
+        self.value_count = 0
 
     @property
     def get_key(self):
-        return self.func1(list(self.my_dict.keys())[self.key])
+        return self.func1(list(self.my_dict.keys())[self.key_count])
 
     @property
     def get_value(self):
-        return self.func2(list(self.my_dict.values())[self.value])
+        return self.func2(list(self.my_dict.values())[self.value_count])
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.key == len(self.my_dict):
+        if self.key_count == len(self.my_dict):
             raise StopIteration
         else:
             my_dict = {self.get_key: self.get_value}
-            self.key += 1
-            self.value += 1
+            self.key_count += 1
+            self.value_count += 1
             return my_dict
 
 
@@ -53,7 +53,7 @@ class MapDictIterTest(TestCase):
             "3": "clarcsson",
             "4": "michaels",
         }
-        self.test_map_dict = MapDictIter(convert_int_to_uid, title_function, self.test_dict)
+        self.test_map_dict = map_dict_iter(convert_int_to_uid, title_function, self.test_dict)
         self.test_range = len(self.test_dict)
         self.additional_keys = [convert_int_to_uid(x) for x in range(1, 10**4)]
 
@@ -73,7 +73,7 @@ class MapDictIterTest(TestCase):
         name = "john"
         test_empty_dict = {}
         big_dict = dict.fromkeys(self.additional_keys, name)
-        big_iter = MapDictIter(convert_int_to_uid, title_function, big_dict)
+        big_iter = map_dict_iter(convert_int_to_uid, title_function, big_dict)
         for i in big_iter:
             test_empty_dict.update(i)
 
