@@ -24,11 +24,9 @@ class map_dict_iter:
         self.key_count = 0
         self.value_count = 0
 
-    @property
     def get_key(self):
         return self.func1(list(self.my_dict.keys())[self.key_count])
 
-    @property
     def get_value(self):
         return self.func2(list(self.my_dict.values())[self.value_count])
 
@@ -39,7 +37,7 @@ class map_dict_iter:
         if self.key_count == len(self.my_dict):
             raise StopIteration
         else:
-            my_dict = {self.get_key: self.get_value}
+            my_dict = {self.get_key(): self.get_value()}
             self.key_count += 1
             self.value_count += 1
             return my_dict
